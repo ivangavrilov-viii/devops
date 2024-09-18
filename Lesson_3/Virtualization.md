@@ -6,8 +6,7 @@
 ## Created by [Ivan Gavrilov](https://github.com/ivangavrilov-viii)
 ---
 ## Summary of Content:
-This section describes
-
+This section describes virtualization, hypervisor types, build systems, and the installation and configuration of Apache Tomcat. The scope of this article included the task of deploying a basic JAVA application. 
 
 ---
 ## Useful links:
@@ -16,6 +15,9 @@ This section describes
 [Покупки серверов](https://trinity.ru/configurators/servers/trinity/23082/)
 [Аренда выделенного сервера](https://netrack.ru/dedicated)
 [Java App GitHub](https://github.com/boxfuse/boxfuse-sample-java-war-hello)
+[Webapp #1](https://github.com/koddas/war-web-project)
+[Webapp #2](https://github.com/cloud-dev-user/java-war-project)
+
 
 ## Content:
 ---
