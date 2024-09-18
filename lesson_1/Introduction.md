@@ -1,4 +1,4 @@
-# ***Вводное занятие DevOps***
+# ***Introduction to DevOps***
 
 ## [[DevOps]]
 
