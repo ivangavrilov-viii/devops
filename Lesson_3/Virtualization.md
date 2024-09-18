@@ -1,4 +1,4 @@
-# ***DESCRIPTION***
+# ***Types of virtualization and first JAVA app***
 
 ## [[DevOps]]
 
@@ -33,13 +33,13 @@ This section describes virtualization, hypervisor types, build systems, and the 
 ---
 ### Homework Results
 
-[Webapp #0](https://github.com/boxfuse/boxfuse-sample-java-war-hello)
+#### [Webapp #0](https://github.com/boxfuse/boxfuse-sample-java-war-hello)
 ![[boxfuse_app.png]]
 
-[Webapp #1](https://github.com/koddas/war-web-project)
+#### [Webapp #1](https://github.com/koddas/war-web-project)
 ![[war_web_service.png]]
 
-[Webapp #2](https://github.com/cloud-dev-user/java-war-project)
+#### [Webapp #2](https://github.com/cloud-dev-user/java-war-project)
 ![[my_app_project.png]]
 
 ---
