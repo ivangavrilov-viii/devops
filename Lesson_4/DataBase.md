@@ -16,14 +16,16 @@ This section describes
 [[postgresql-v517.pdf|PostgreSQL – масштабирование]]
 [Test Database](https://github.com/pthom/northwind_psql)
 [Postgres 12 – Courses and Documentation](https://postgrespro.ru/docs/postgresql/12/)
-
+[pg Tune](link in search system)
 
 
 ## Content:
 ---
 > Транзакция - группа последовательных операций с БД, которая представляет собой логическую единицу работы с данными
 
+> Репликация - одна их техник масштабирования БД, горизонтальное масштабирование БД, данные с одного сервера реплицируется, копируется на реплики. Виды репликаций: master-master, master-slave.
 
+>pgBouncer - распределитель нагрузки коннектов к postgres 
 
 ---
 ### Report
@@ -134,7 +136,7 @@ su postgres
 cd /etc/postgresql/12/main/
 ```
 
-Запуск утилиты
+Запуск подготовки утилиты
 ```
 pgbench -h localhost -p 5432 -U postgres -i -s 100 test1
 ```
@@ -146,3 +148,100 @@ pgbench -h localhost -p 5432 -U postgres -i -s 100 test1
 > 
 > Команда инициализирует базу данных test1, создавая в ней необходимые таблицы и заполняя их тестовыми данными, масштабируемыми до уровня, определенного параметром -s. В данном случае размер данных будет достаточно большим (-s 100), что эквивалентно примерно 10 миллионам строк в основной таблице. После выполнения этой команды база данных будет готова для запуска тестов производительности с помощью pgbench.
 
+Устанавливаем утилиту pg-activity
+```
+apt install pg-activity
+su postgres
+pg_activity
+```
+
+Запуск теста
+```
+pgbench -h localhost -p 5432 -U postgres -c 50 -j 2 -P 60 -T 600 test1
+```
+> -c 50 - clinets
+> -j 2 - amount of 
+> -P - progress eah 60 s
+> -T 600 - work timing
+> test1 - DB name
+---
+#### Settings of replications
+Запускаем 2-ю машину
+```
+sudo su
+apt update 
+```
+
+Установка PostgreSQL
+```
+apt install postgresql
+```
+> Требования: версии postgresql на мастер БД и репликационной БД должны быть идентичны
+
+```
+nano /etc/postgesql/12/main/postgresql.conf
+```
+
+Настройка файла postgresql.conf
+```
+listen_addresses = '*'
+wal_level = replica
+wal_log_hints = on
+max_wal_senders = 10
+wal_keep_segments = 64
+hot_standby = on
+```
+
+Настройка файла pg_hba.conf
+```
+nano /etc/postgesql/12/main/pg_hba.conf
+```
+
+Добавить в раздел репликаций в конце файла
+```
+host    all             all             158.160.17.198/32       md5
+host    replication     postgres        158.160.17.198/32       md5
+```
+
+Перезапуск postgresql
+```
+systemctl restart postgresql
+ss -tupln
+```
+
+Создаем пароль md5 для пользователя postgres
+```
+su postgres
+psql
+ALTER ROLE postgres PASSWORD 'password';
+\q
+```
+
+> Физическая БД лежит:
+```
+/var/lib/postgresql/12/main/
+```
+
+На slave server удалим содержимое /var/lib/postgresql/12
+```
+cd /var/lib/postgresql/12/
+rm -rf main/*
+```
+
+Настройка репликация из под сервера slave
+```
+pg_basebackup -P -R -X stream -c fast -h 130.193.54.181 -U postgres -D ./main
+```
+
+Предоставление прав для пользователя postgres
+```
+chown -R postgres:postgres main/
+
+```
+
+Перезапуск postgresql
+```
+systemctl restart postgresql
+ss -tupln
+```
+---
