@@ -61,7 +61,7 @@ psql
 ```
 Создание пользователя
 ```
-CREATE USER user1 WITH PASSWORD 'gavril_23';
+CREATE USER user1 WITH PASSWORD 'password';
 ```
 Создание базы данных
 ```
@@ -82,7 +82,7 @@ git clone https://github.com/pthom/northwind_psql.git
 #### Import installed dump
 Переключаемся на пользователя postgres
 ```
-sud su postgres
+sudo su postgres
 ```
 
 Импортируем dump
@@ -179,7 +179,7 @@ apt install postgresql
 > Требования: версии postgresql на мастер БД и репликационной БД должны быть идентичны
 
 ```
-nano /etc/postgesql/12/main/postgresql.conf
+nano /etc/postgresql/12/main/postgresql.conf
 ```
 
 Настройка файла postgresql.conf
@@ -194,7 +194,7 @@ hot_standby = on
 
 Настройка файла pg_hba.conf
 ```
-nano /etc/postgesql/12/main/pg_hba.conf
+nano /etc/postgresql/12/main/pg_hba.conf
 ```
 
 Добавить в раздел репликаций в конце файла
@@ -230,18 +230,17 @@ rm -rf main/*
 
 Настройка репликация из под сервера slave
 ```
-pg_basebackup -P -R -X stream -c fast -h 130.193.54.181 -U postgres -D ./main
+pg_basebackup -P -R -X stream -c fast -h 51.250.20.181 -U postgres -D ./main
 ```
 
 Предоставление прав для пользователя postgres
 ```
 chown -R postgres:postgres main/
-
 ```
 
 Перезапуск postgresql
 ```
 systemctl restart postgresql
-ss -tupln
+systemctl status postgresql
 ```
 ---
