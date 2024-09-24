@@ -14,7 +14,8 @@ This section describes
 [GitFlow: как построить процесс разработки – YouTube](https://www.youtube.com/watch?v=rC6varfUhCo)
 [Git Cheat Sheet Link](https://proglib.io/p/git-cheatsheet)
 [[git-cheat-sheet-education.pdf|Git Cheat Sheet File]]
-
+[Zoom](https://us06web.zoom.us/rec/share/exuWyxzMTQZdo12KLrZ-qBIwsGHpU3GFbgSGOeH9_oumqFDRVCoABl2J-8i_oOwp.pkLK5auMSIyI_t7T)
+Access code: a9YvK##K
 ## Content:
 ---
 Для работы на уроке потребуется VM: от 4vCPU от 4GB RAM и от 65 GB SSD.
