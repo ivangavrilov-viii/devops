@@ -6,7 +6,7 @@
 ## Created by [Ivan Gavrilov](https://github.com/ivangavrilov-viii)
 ---
 ## Summary of Content:
-This section describes
+This section describes the basic concepts of databases, the fundamental concepts of databases, the types of databases, and the concept of replication with practical implementation of creation and application in development. 
 
 
 ---
@@ -16,7 +16,7 @@ This section describes
 [[postgresql-v517.pdf|PostgreSQL – масштабирование]]
 [Test Database](https://github.com/pthom/northwind_psql)
 [Postgres 12 – Courses and Documentation](https://postgrespro.ru/docs/postgresql/12/)
-[pg Tune](link in search system)
+[pg_Tune](https://www.pgconfig.org/#/?max_connections=100&pg_version=16&environment_name=WEB&total_ram=4&cpus=2&drive_type=SSD&arch=x86-64&os_type=linux)
 
 
 ## Content:
@@ -26,7 +26,6 @@ This section describes
 > Репликация - одна их техник масштабирования БД, горизонтальное масштабирование БД, данные с одного сервера реплицируется, копируется на реплики. Виды репликаций: master-master, master-slave.
 
 >pgBouncer - распределитель нагрузки коннектов к postgres 
-
 ---
 ### Report
 ![[devops4.pdf]]
@@ -107,7 +106,7 @@ SELECT * FROM products;
 pg_dump test1 > /tmp/db.sql
 ```
 
-> Создание дампа всей системы 
+Создание дампа всей системы 
 ```
 pg_damp all
 ```
@@ -159,10 +158,10 @@ pg_activity
 ```
 pgbench -h localhost -p 5432 -U postgres -c 50 -j 2 -P 60 -T 600 test1
 ```
-> -c 50 - clinets
+> -c 50 - clients
 > -j 2 - amount of 
-> -P - progress eah 60 s
-> -T 600 - work timing
+> -P - progress each 60 s
+> -T 600 - work time
 > test1 - DB name
 ---
 #### Settings of replications
@@ -199,8 +198,8 @@ nano /etc/postgresql/12/main/pg_hba.conf
 
 Добавить в раздел репликаций в конце файла
 ```
-host    all             all             158.160.17.198/32       md5
-host    replication     postgres        158.160.17.198/32       md5
+host    all             all             slave_ip/32       md5
+host    replication     postgres        slave_ip/32       md5
 ```
 
 Перезапуск postgresql
@@ -230,7 +229,7 @@ rm -rf main/*
 
 Настройка репликация из под сервера slave
 ```
-pg_basebackup -P -R -X stream -c fast -h 51.250.20.181 -U postgres -D ./main
+pg_basebackup -P -R -X stream -c fast -h master_ip -U postgres -D ./main
 ```
 
 Предоставление прав для пользователя postgres

@@ -11,17 +11,13 @@ This section describes
 
 ---
 ## Useful links:
-[# Git-flow: как построить процесс разработки – YouTube](https://www.youtube.com/watch?v=rC6varfUhCo)
+[GitFlow: как построить процесс разработки – YouTube](https://www.youtube.com/watch?v=rC6varfUhCo)
 [Git Cheat Sheet Link](https://proglib.io/p/git-cheatsheet)
 [[git-cheat-sheet-education.pdf|Git Cheat Sheet File]]
 
 ## Content:
 ---
 
-
----
-### Report
-![[]]
 
 ---
 ### Homework content

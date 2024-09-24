@@ -1,24 +1,20 @@
-# ***DESCRIPTION***
+# ***Homework task***
 
 ## [[DevOps]]
 
 
 ## Created by [Ivan Gavrilov](https://github.com/ivangavrilov-viii)
 ---
-## Summary of Content:
-This section describes
-
-
----
 ## Useful links:
 [Глава 19.6. Репликация](https://postgrespro.ru/docs/postgresql/12/runtime-config-replication)
 [Глава 26. Отказоустойчивость, балансировка нагрузки и репликация](https://postgrespro.ru/docs/postgresql/12/warm-standby-failover)
 
 
-## Content:
+## TASK:
 ---
-### TASK:
-> Поднять 3-ю реплику Postgresql. Сделать ее с отставанием по времени. Сымитировать падение мастер-ноды. Превратить слэйв-ноду в мастер-ноду.
+> Set the 3rd Postgresql replica with a time delay. Simulate the failure of the master node. Turn the slave node into a master node.
+
+## Solution
 ---
 ### 1. Настройка базы данных и конфигурация:
 - Установка PostgreSQL на третьем сервере.
