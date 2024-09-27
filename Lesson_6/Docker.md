@@ -110,3 +110,26 @@ docker login -u gavril23
 ```
 docker push gavril23/firstapp
 ```
+
+
+---
+Update server and install requirements
+```
+sudo apt update
+sudo apt install default-jdk
+apt-cache policy tomcat*
+sudo apt install tomcat9
+sudo apt install maven
+sudo apt install git
+```
+
+Install and start "boxfuse-sample-java-war-hello" project with Java and Maven
+```
+git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+cd boxfuse-sample-java-war-hello/
+mvn package
+cd target/
+sudo cp hello-1.0.war /var/lib/tomcat9/webapps/
+cd /var/lib/tomcat9/webapps/
+ss -tupln
+```
