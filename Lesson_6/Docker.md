@@ -133,3 +133,9 @@ sudo cp hello-1.0.war /var/lib/tomcat9/webapps/
 cd /var/lib/tomcat9/webapps/
 ss -tupln
 ```
+
+
+
+```
+docker run -i -t test
+```
