@@ -43,6 +43,12 @@ docker run -d -p 8080:8080 test
 > -d - чтобы не провалиться в этот контейнер, а просто запустить
 > -p 8080:8080 - открываем порты для докера
 
+#### Check working docker container
+```
+docker ps
+```
+> If there is this container in the list, check your server IP in browser
+
 ## Additional
 ---
 #### Run docker container
