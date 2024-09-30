@@ -20,12 +20,17 @@
 #### Install docker
 ```
 sudo su
+cd 
 apt update
 apt install docker.io
 ```
 #### Dockerfile
 ```
-nano Dockerfile
+git clone https://github.com/ivangavrilov-viii/devops.git
+```
+
+```
+mv devops/Lesson_6/Dockerfile .
 ```
 
 ```
@@ -36,10 +41,24 @@ docker build -t test .
 docker run -d -p 8080:8080 test
 ```
 > -d - чтобы не провалиться в этот контейнер, а просто запустить
-> -p 80:80 - открываем порты для докера
+> -p 8080:8080 - открываем порты для докера
 
 ## Additional
 ---
+#### Run docker container
 ```
 docker run -i -t test
 ```
+#### Pushing on docker hub
+```
+docker image tag test gavril23/start_boxfuse
+```
+
+```
+docker login -u gavril23
+```
+
+```
+docker push gavril23/start_boxfuse
+```
+---
