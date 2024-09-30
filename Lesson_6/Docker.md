@@ -1,4 +1,4 @@
-# ***DESCRIPTION***
+# ***Lesson about containerization and Docker***
 
 ## [[DevOps]]
 
@@ -6,7 +6,7 @@
 ## Created by [Ivan Gavrilov](https://github.com/ivangavrilov-viii)
 ---
 ## Summary of Content:
-This section describes
+This section describes about a containerization, the differences from virtualization. Besides, explores using Docker, writing your first Dockerfile, starting a container, and working with Docker Hub.
 
 
 ---
@@ -17,13 +17,6 @@ This section describes
 
 
 ## Content:
----
-
-
----
-### Report
-![[]]
-
 ---
 ### Homework
 ![[homework_6.pdf]]
@@ -87,7 +80,7 @@ CMD ["nginx", "-g", "daemon off;"]
 ```
 docker build -t {image_name} .
 ```
-> . - 
+> . - build container in working directory
 ---
 #### Start docker image
 ```
@@ -96,7 +89,7 @@ docker run -d -p 80:80 {image_name}
 > -d - чтобы не провалиться в этот контейнер, а просто запустить
 > -p 80:80 - открываем порты для докера
 ---
-
+#### Pushing on docker hub
 ```
 docker image tag my_index_1 gavril23/myfirstwebapp1
 ```
@@ -104,38 +97,8 @@ docker image tag my_index_1 gavril23/myfirstwebapp1
 ```
 docker login -u gavril23
 ```
----
 
-#### Pushing on docker hub
 ```
 docker push gavril23/firstapp
 ```
-
-
 ---
-Update server and install requirements
-```
-sudo apt update
-sudo apt install default-jdk
-apt-cache policy tomcat*
-sudo apt install tomcat9
-sudo apt install maven
-sudo apt install git
-```
-
-Install and start "boxfuse-sample-java-war-hello" project with Java and Maven
-```
-git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-cd boxfuse-sample-java-war-hello/
-mvn package
-cd target/
-sudo cp hello-1.0.war /var/lib/tomcat9/webapps/
-cd /var/lib/tomcat9/webapps/
-ss -tupln
-```
-
-
-
-```
-docker run -i -t test
-```

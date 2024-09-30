@@ -1,4 +1,4 @@
-# ******
+# ***Homework on Docker***
 
 ## [[DevOps]]
 
@@ -6,12 +6,14 @@
 ## Created by [Ivan Gavrilov](https://github.com/ivangavrilov-viii)
 ---
 ## Useful links:
-
-
+[Tomcat containers](https://hub.docker.com/_/tomcat)
+[Maven container](https://hub.docker.com/_/maven)
+[Project in GitHub](https://github.com/boxfuse/boxfuse-sample-java-war-hello.git )
+[[Dockerfile]]
 
 ## TASK:
 ---
-> ...
+> Упаковать Java приложение в Docker- контейнер. Процесс сборки производить также в контейнере.
 
 ## Solution
 ---
@@ -36,22 +38,8 @@ docker run -d -p 8080:8080 test
 > -d - чтобы не провалиться в этот контейнер, а просто запустить
 > -p 80:80 - открываем порты для докера
 
+## Additional
+---
 ```
 docker run -i -t test
 ```
-
-```
-FROM ubuntu:18.04  
-RUN apt update  
-RUN apt install default-jdk -y  
-RUN apt install tomcat9 -y  
-RUN apt install maven -y  
-RUN apt install git -y  
-RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git  
-WORKDIR /boxfuse-sample-java-war-hello/  
-RUN mvn package  
-RUN cp /boxfuse-sample-java-war-hello/target/hello-1.0.war /var/lib/tomcat9/webapps/  
-EXPOSE 8080
-```
-## Additional
----
