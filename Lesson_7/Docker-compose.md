@@ -12,6 +12,8 @@ This section describes
 ---
 ## Useful links:
 [Docker compose](https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-x86_64)
+[Docker elk](docker-elk github)
+ 
 
 
 ## Content:
@@ -95,6 +97,33 @@ services:
             context: ./docker
             dockerfile: php.Dockerfile
         volumes:
-         
+            - './app:/var/www/html'
+        depends_on:
+            - mariadb
+    nginx:
+        image: nginx:latest
+        ports:
+            - '80:80'
+            - '443:443'
+        links:
+            - 'php'
+        volumes:
+            - './app:/var/www/html'
+            - '.config/nginx:/etc/nginx/conf.d'
+    mariadb:
+        image: mariadb:11
+        restart: 'on-failure'
+        environment:
+            MYSQL_ROOT_PASSWORD: 'secret'
+        volumes:
+            - './mysql:/var/lib/mysql'
 ...
+```
+
+```bash
+docker-compose up -d
+docker-compose ps
+docker-compose logs
+docker-compose stop
+docker-compose rm
 ```
