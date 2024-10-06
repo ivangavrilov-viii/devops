@@ -7,7 +7,6 @@ services:
       dockerfile: build.Dockerfile
     volumes:
       - build_volume:/app/target/
-    command: mvn package
   production:
     build:
       context: ./production
