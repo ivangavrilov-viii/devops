@@ -8,8 +8,6 @@ services:
     volumes:
       - build_volume:/app/target/
     command: mvn package
-    depends_on:
-      - production
   production:
     build:
       context: ./production
@@ -18,6 +16,8 @@ services:
       - build_volume:/var/lib/tomcat9/webapps/
     ports:
       - '8080:8080'
+    depends_on:
+      - builder
 
   volumes:
     build_volume:
