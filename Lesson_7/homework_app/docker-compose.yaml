@@ -1,0 +1,24 @@
+---
+version: '3'
+services:
+  builder:
+    build:
+      context: ./build
+      dockerfile: build.Dockerfile
+    volumes:
+      - build_volume:/app/target/
+    command: mvn package
+    depends_on:
+      - production
+  production:
+    build:
+      context: ./production
+      dockerfile: production.Dockerfile
+    volumes:
+      - build_volume:/var/lib/tomcat9/webapps/
+    ports:
+      - '8080:8080'
+
+  volumes:
+    build_volume:
+...
