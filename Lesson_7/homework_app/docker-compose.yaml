@@ -12,7 +12,7 @@ services:
       context: ./production
       dockerfile: production.Dockerfile
     volumes:
-      - build_volume:/var/lib/tomcat9/webapps/
+      - build_volume:/usr/local/tomcat/webapps/
     ports:
       - '8080:8080'
     depends_on:
