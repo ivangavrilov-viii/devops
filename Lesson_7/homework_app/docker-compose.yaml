@@ -19,6 +19,6 @@ services:
     depends_on:
       - builder
 
-  volumes:
-    build_volume:
+volumes:
+  build_volume:
 ...
