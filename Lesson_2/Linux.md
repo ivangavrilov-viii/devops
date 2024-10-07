@@ -38,5 +38,39 @@ cat .ssh/yandex_machine.pub
 etc/ssh/sshd_config
 Разрешаем от пользователя root
 
+Master_Ivan
+Prod_Ivan
+Build_Ivan
+#### Generate ssh key in master server
+```
+ssh-keygen
+```
+
+На второй машине
+Разрешу авторизацию по паролю
+```
+nano /etc/ssh/sshd_config
+```
+
+```
+PermitRootlogin yes
+
+ChallengeResponseAuthetification yes
+
+PasswordAuthetification yes
+
+```
+
+
+service sshd restart
+
+```
+passwd root
+```
+
+```
+ssh-copy-id root@
+```
+
 
 

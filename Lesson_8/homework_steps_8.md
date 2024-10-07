@@ -30,23 +30,21 @@ ssh-copy-id ivan@production
 ```bash
 sudo su
 apt update
-apt install ansible
-apt install git
+apt install ansible -y
+apt install git -y
 ```
 
 Add slaves ip in ansible
-```
+```bash
 nano /etc/ansible/hosts
 ```
 
 ```
 [production]
-build_ip
-
-  
+production_ip  
 
 [build]
-production_ip
+build_ip
 ```
 
 Check connection
@@ -59,6 +57,7 @@ git clone https://github.com/ivangavrilov-viii/devops.git
 ```
 
 ```bash
+cd devops/Lesson_8/homework_app/
 ansible-playbook homework.yml
 ```
 
