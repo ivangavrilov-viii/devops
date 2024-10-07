@@ -1,4 +1,4 @@
-# ***DESCRIPTION***
+# ***Ansible and playbooks.***
 
 ## [[DevOps]]
 
@@ -6,7 +6,7 @@
 ## Created by [Ivan Gavrilov](https://github.com/ivangavrilov-viii)
 ---
 ## Summary of Content:
-This section describes
+This section describes about Ansible.
 
 
 ---
