@@ -1,4 +1,19 @@
 ---
+- name: Provisioning production
+  hosts: production
+  become: yes
+
+  tasks:
+    - name: Ensure tomcat9 packages are present
+      apt:
+        name: tomcat9
+        state: present
+
+    - name: Ensure tomcat9 service is started
+      service:
+        name: tomcat9
+        state: started
+
 - name: Provisioning Build
   hosts: build
   become: yes
@@ -24,23 +39,10 @@
         chdir: /app
 
     - name: Copy hello.war in production node
-      copy:
+      synchronize:
         src: /app/target/hello-1.0.war
         dest: /usr/local/tomcat/webapps
       delegate_to: 158.160.29.132
 
-- name: Provisioning production
-  hosts: production
-  become: yes
 
-  tasks:
-    - name: Ensure tomcat9 packages are present
-      apt:
-        name: tomcat9
-        state: present
-
-    - name: Ensure tomcat9 service is started
-      service:
-        name: tomcat9
-        state: started
 ...
