@@ -1,0 +1,46 @@
+---
+- name: Provisioning Build
+  hosts: build
+  become: yes
+
+  tasks:
+    - name: Ensure Maven, JDK, Git packages are present
+      apt:
+        name:
+          - maven
+          - default-jdk
+          - git
+        state: present
+
+    - name: Clone project from repo
+      git:
+        repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+        dest: /app
+        version: master
+
+    - name: Build app using Maven
+      command: mvn package
+      args:
+        chdir: /app
+
+    - name: Copy hello.war in production node
+      copy:
+        src: /app/target/hello-1.0.war
+        dest: /usr/local/tomcat/webapps
+      delegate_to: production
+
+- name: Provisioning production
+  hosts: production
+  become: yes
+
+  tasks:
+    - name: Ensure tomcat9 packages are present
+      apt:
+        name: tomcat9
+        state: present
+
+    - name: Ensure tomcat9 service is started
+      service:
+        name: tomcat9
+        state: started
+...

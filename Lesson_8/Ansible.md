@@ -16,6 +16,7 @@ This section describes about Ansible.
 [Habr – Ansible: 30 самых важных модулей для DevOps-профессионалов](https://habr.com/ru/companies/slurm/articles/707130/)
 [Ansible AWX](https://github.com/ansible/awx)
 [Polemarch](https://polemarch.org)
+[[Запускаем Ansible|Ansible Book]]
 
 
 ## Content:
@@ -162,7 +163,7 @@ nano index.html
 ```
 ---
 #### Start wrotten playbook
-```
+```bash
 ansible-playbook demo.yml
 ```
 ---
