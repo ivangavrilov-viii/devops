@@ -58,7 +58,9 @@ ansible all -m ping
 git clone https://github.com/ivangavrilov-viii/devops.git
 ```
 
-
+```bash
+ansible-playbook homework.yml
+```
 
 
 
