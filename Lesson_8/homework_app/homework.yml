@@ -27,7 +27,7 @@
       copy:
         src: /app/target/hello-1.0.war
         dest: /usr/local/tomcat/webapps
-      delegate_to: production
+      delegate_to: 89.169.164.28
 
 - name: Provisioning production
   hosts: production
