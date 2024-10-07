@@ -12,7 +12,7 @@ This section describes
 ---
 ## Useful links:
 [Docker compose](https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-x86_64)
-[Docker elk](docker-elk github)
+[Elastic stack (ELK) on Docker](https://github.com/deviantony/docker-elk)
  
 
 
@@ -75,7 +75,7 @@ nano test2.yml
 ...
 ```
 ---
-#### 
+#### Install docker-compose
 ```bash
 sudo su
 cd
@@ -85,6 +85,9 @@ wget https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-
 cp docker-compose-linux-x86_64 /bin/docker-compose
 chmod +x /bin/docker-compose
 docker-compose --version
+```
+#### First docker-compose file
+```
 nano docker-compose.yaml
 ```
 
@@ -119,7 +122,8 @@ services:
             - './mysql:/var/lib/mysql'
 ...
 ```
-
+---
+#### Docker-compose commands
 ```bash
 docker-compose up -d
 docker-compose ps
