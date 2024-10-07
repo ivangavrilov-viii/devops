@@ -15,17 +15,17 @@
     - name: Clone project from repo
       git:
         repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-        dest: /home/ivan/app
+        dest: /app
         version: master
 
     - name: Build app using Maven
       command: mvn package
       args:
-        chdir: /home/ivan/app
+        chdir: /app
 
     - name: Copy hello.war in production node
       copy:
-        src: /home/ivan/app/target/hello-1.0.war
+        src: /app/target/hello-1.0.war
         dest: /usr/local/tomcat/webapps
       delegate_to: 158.160.29.132
 
