@@ -43,7 +43,6 @@
         state: started
 
     - name: Copy hello.war in production node
-        #      shell: rsync -avz /app/target/hello-1.0.war 158.160.29.132:/var/lib/tomcat9/webapps
       synchronize:
         src: /app/target/hello-1.0.war
         dest: /var/lib/tomcat9/webapps
