@@ -2,6 +2,8 @@
 - name: Provisioning production
   hosts: production
   become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
 
   tasks:
     - name: Ensure tomcat9 packages are present
@@ -17,6 +19,8 @@
 - name: Provisioning Build
   hosts: build
   become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
 
   tasks:
     - name: Ensure Maven, JDK, Git packages are present
@@ -39,8 +43,10 @@
         chdir: /app
 
     - name: Copy hello.war in production node
+#      shell: rsync -avz /app/target/hello-1.0.war 158.160.29.132:/var/lib/tomcat9/webapps
       synchronize:
         src: /app/target/hello-1.0.war
-        dest: /var/lib/tomcat9/webapps
-      delegate_to: 158.160.6.50
+        dest: /tmp
+      delegate_to: 158.160.29.132
+      become: yes
 ...
