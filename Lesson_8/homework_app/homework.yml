@@ -1,21 +1,4 @@
 ---
-- name: Provisioning production
-  hosts: production
-  become: yes
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
-
-  tasks:
-    - name: Ensure tomcat9 packages are present
-      apt:
-        name: tomcat9
-        state: present
-
-    - name: Ensure tomcat9 service is started
-      service:
-        name: tomcat9
-        state: started
-
 - name: Provisioning Build
   hosts: build
   become: yes
@@ -42,11 +25,27 @@
       args:
         chdir: /app
 
+- name: Provisioning production
+  hosts: production
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+    - name: Ensure tomcat9 packages are present
+      apt:
+        name: tomcat9
+        state: present
+
+    - name: Ensure tomcat9 service is started
+      service:
+        name: tomcat9
+        state: started
+
     - name: Copy hello.war in production node
-#      shell: rsync -avz /app/target/hello-1.0.war 158.160.29.132:/var/lib/tomcat9/webapps
+        #      shell: rsync -avz /app/target/hello-1.0.war 158.160.29.132:/var/lib/tomcat9/webapps
       synchronize:
         src: /app/target/hello-1.0.war
-        dest: /tmp
+        dest: /var/lib/tomcat9/webapps
       delegate_to: 158.160.6.50
-      become: yes
 ...
