@@ -47,6 +47,6 @@
       synchronize:
         src: /app/target/hello-1.0.war
         dest: /tmp
-      delegate_to: 158.160.29.132
+      delegate_to: 158.160.6.50
       become: yes
 ...
