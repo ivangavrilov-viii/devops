@@ -1,4 +1,4 @@
-# ***DESCRIPTION***
+# ***Ansible roles and playbook***
 
 ## [[DevOps]]
 
@@ -6,7 +6,7 @@
 ## Created by [Ivan Gavrilov](https://github.com/ivangavrilov-viii)
 ---
 ## Summary of Content:
-This section describes
+This section describes about roles in Ansible and playbooks for these roles.
 
 
 ---
@@ -187,6 +187,7 @@ nano common/task/main.yml
 ```
 ---
 #### Create own role "webserver"
+##### Add var in defaults
 ```bash
 cd roles
 ansible-galaxy init webserver
@@ -199,9 +200,124 @@ nano webserver/defaults/main.yml
 dest_folder: /var/www/html
 ...
 ```
-
+##### Add index.html in files dir
 ```bash
+nano webserver/files/index.html
 ```
 
+```html
+<html>
+	<h1>Hello World!</h1>
+</html>
+```
+##### Add handler in role
+```bash
+nano webserver/handlers/main.yml
+```
 
+```YAML
+---
+# handlers file for webserver
+- name: Restart Nginx
+  service: name=nginx state=restarted
+...
+```
+##### Add tasks for role
+```bash
+nano webserver/tasks/main.yml
+```
+
+```YAML
+---
+# tasks file for webserver
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Copy index.html
+  copy: src=index.html dect={{dest_folder}}/index.html mode=0555
+  notify:
+    - Restart Nginx
+...
+```
+---
+#### Create own role "security"
+##### Create new role
+```bash
+cd roles
+ansible-galaxy init security
+```
+##### Create banner
+```bash
+nano security/files/banner
+```
+
+```bash
+***************************************************
+This server is protected ! 
+***************************************************
+```
+##### Add handler for role
+```bash
+nano security/handlers/main.yml
+```
+
+```YAML
+---
+# handlers file for security
+- name: Restart sshd
+  service: name=sshd state=restarted
+...
+```
+##### Add task for role
+```bash
+nano security/tasks/main.yml
+```
+
+```YAML
+---
+# tasks file for security
+- name: Copy banner
+  copy: src=banner dest=/etc/ssh/
+
+- name: Setup config
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    line: 'Banner /etc/ssh/sshd_config'
+  notify:
+    - Restart sshd
+...
+```
+---
+#### Create roles playbook
+```bash
+nano /roles/roles.yml
+```
+
+```YAML
+---
+- name: Setup web servers
+  hosts: web
+  become: yes
+
+  roles:
+    - common
+    - webserver
+    - security
+
+- name: Setup db servers
+  hosts: db
+  become: yes
+
+  roles:
+    - common
+    - security
+...
+```
+
+#### Create and start playbook
+```bash
+ansible-playbook roles.yml
+```
 ---
