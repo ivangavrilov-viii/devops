@@ -13,7 +13,8 @@ This section describes
 ## Useful links:
 [Zoom](https://us06web.zoom.us/rec/share/WEYt90GHH2Fh-gppcKAql3PvwpxBw8sFiFrgfDSy4ME_WPn-K18n2qYnUyITN19U.hI-np3fTlNkli-S7) Access code: ```4YJ&fV*F```
 [[Запускаем Ansible|Ansible Book]]
-
+[Ansible Repository](https://galaxy.ansible.com/ui/)
+[Ansible Roles](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html)
 
 ## Content:
 ---
@@ -158,4 +159,49 @@ nano templating.yml
 ansible-playbook templating.yml
 ```
 ---
-#### Stop watching at 40 minutes
+#### Install role from ansible roles rep
+```bash
+ansible-galaxy role install geerlingguy.postgresql
+```
+---
+#### Create own role "common"
+```bash
+mkdir roles
+cd roles
+ansible-galaxy init common
+nano common/task/main.yml
+```
+
+```
+---
+# tasks file for common
+- name: Install packages
+  apt: name={{item}} state=installed
+  with_items:
+    - tree
+    - mc
+    - htop
+    - ncdu
+    - links
+...
+```
+---
+#### Create own role "webserver"
+```bash
+cd roles
+ansible-galaxy init webserver
+nano webserver/defaults/main.yml
+```
+
+```yaml
+---
+# tasks file for common
+dest_folder: /var/www/html
+...
+```
+
+```bash
+```
+
+
+---
