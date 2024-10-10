@@ -1,0 +1,19 @@
+---
+- name: Setup build server
+  hosts: build
+  become: yes
+  vars:  
+    ansible_python_interpreter: /usr/bin/python3
+  
+  roles:
+    - builder
+
+- name: Setup prod servers
+  hosts: production
+  become: yes
+  vars:  
+    ansible_python_interpreter: /usr/bin/python3
+    
+  roles:
+    - production
+

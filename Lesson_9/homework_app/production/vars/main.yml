@@ -1,0 +1,4 @@
+---
+# vars file for production
+remote_src: /app/target/hello-1.0.war
+local_dest: /var/lib/tomcat9/webapps

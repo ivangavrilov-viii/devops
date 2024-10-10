@@ -1,0 +1,13 @@
+---
+# tasks file for production
+- name: Ensure tomcat9 packages are present
+  apt: name=tomcat9 state=present
+
+- name: Copy .war from build server
+  synchronize:
+    src: "{{remote_src}}"
+    dest: "{{local_dest}}"
+  delegate_to: build
+  notify:
+    - Restart Tomcat
+

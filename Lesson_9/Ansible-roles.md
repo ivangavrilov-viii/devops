@@ -236,7 +236,7 @@ nano webserver/tasks/main.yml
     state: present
 
 - name: Copy index.html
-  copy: src=index.html dect={{dest_folder}}/index.html mode=0555
+  copy: src=index.html dest={{dest_folder}}/index.html mode=0555
   notify:
     - Restart Nginx
 ...

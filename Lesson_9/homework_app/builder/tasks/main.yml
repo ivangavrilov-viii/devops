@@ -1,0 +1,19 @@
+---
+# tasks file for builder
+- name: Install packages
+  apt: name={{item}} state=present
+  with_items:
+    - maven
+    - default-jdk
+    - git
+
+- name: Clone project from repo
+  git:
+    repo: "{{repo_url}}"
+    dest: "{{app_dest}}"
+    version: master
+
+- name: Build app using Maven
+  command: mvn package
+  args:
+    chdir: "{{app_dest}}"

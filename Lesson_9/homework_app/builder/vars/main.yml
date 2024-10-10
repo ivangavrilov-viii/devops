@@ -1,0 +1,5 @@
+---
+# vars file for builder
+app_dest: /app
+repo_url: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+
