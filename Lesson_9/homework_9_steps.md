@@ -6,12 +6,13 @@
 ## Created by [Ivan Gavrilov](https://github.com/ivangavrilov-viii)
 ---
 ## Useful links:
+[Ansible Vars](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#playbooks-variables)
 
 
 
 ## TASK:
 ---
-> Написать Ansible роли, которые подготавливают сборочное и продовое окружение на 2-х нодах. На сборочной ноде производится сборка проекта, на продовой - запуск.
+> Write Ansible roles that prepare build and prod environments on 2 nodes. On the build node the project is built, on the prod node the project is launched.
 
 ## Steps in master server
 ---
@@ -21,9 +22,14 @@ git clone https://github.com/ivangavrilov-viii/devops.git
 ```
 ### Move homework_app folder from repo
 ```bash
-
+mv devops/Lesson_9/homework_app/ .
+cd homework_app
 ```
-
+### Start playbook
+```bash
+ansible-playbook roles.yml
+```
+---
 ## Solution
 ---
 ### Create "roles" folder
