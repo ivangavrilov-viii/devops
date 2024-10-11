@@ -24,7 +24,7 @@ This section describes about CI/CD, Jenkins.
 
 ---
 ### View
-![[]]
+![[GMT20241010-171216_Recording_1280x1024.mp4]]
 
 ---
 ### Report
@@ -32,7 +32,7 @@ This section describes about CI/CD, Jenkins.
 
 ---
 ### Homework
-![[]]
+![[homework_10.pdf]]
 
 ---
 ### Lesson steps
