@@ -21,6 +21,7 @@ This section describes about CI/CD, Jenkins.
 
 > Jenkins - инструмент автоматизации
 
+> Принципиальное различие Ansible от Jenkins – 
 
 ---
 ### View
@@ -69,5 +70,20 @@ User Admin
 gavrilovivan2001@gmail.com
 ```
 ---
-#### 
+#### Install plugins in Jenkins
+```
+SSH
+SSH Agent
+```
+---
+#### Add VM in Credentional
+---
+#### Add host
+Go to system
+Hostname: input IP
+Port: 22
+Credentional: root
+Press check connection
 
+---
+#### Create Job
