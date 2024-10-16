@@ -158,6 +158,8 @@ docker build -t build_app:$version_tag .
 docker image tag build_app:$version_tag 158.160.13.136:8123/build_app:$version_tag
 docker push 158.160.13.136:8123/build_app:$version_tag
 ```
+![[build_cmd.png]]
+
 ---
 ### Prepare Prod server
 ```bash
@@ -180,4 +182,8 @@ nano /etc/docker/daemon.json
 docker image pull 158.160.13.136:8123/build_app:$version_tag
 docker run -d -p 8080:8080 158.160.13.136:8123/build_app:$version_tag
 ```
+![[prod_cmd.png]]
+
 ---
+### Nexus rep
+![[nexus_repo.png]]

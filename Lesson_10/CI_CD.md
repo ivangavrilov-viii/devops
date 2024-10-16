@@ -13,6 +13,7 @@ This section describes about CI/CD, Jenkins.
 ## Useful links:
 [Catlight](https://catlight.io/) - Action center for developers
 [Jenkins builds](https://ci.xwiki.org)
+[Версионирование](https://semver.org/lang/ru/)
 
 
 ## Content:
