@@ -21,7 +21,7 @@ This section describes
 ---
 
 ---
-### View
+### View (13 минута)
 ![[GMT20241014-172552_Recording_1600x1024.mp4]]
 
 ---
@@ -33,6 +33,30 @@ This section describes
 ![[homework_11.pdf]]
 
 ---
+### Lesson steps
+#### Prepare build server
+```bash
+sudo su
+apt update
+apt install tomcat9 tomcat9-admin -y
+```
+
+Add user in Tomcat
+```
+nano /etc/tomcat9/tomcat-users.xml
+```
+
+```
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<user username="deployer" password="deploy" role="manager-script,manager-gui"/>
+```
+
+```
+service tomcat9 restart
+```
+---
+
 
 
 
