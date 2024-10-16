@@ -37,10 +37,6 @@ cat .ssh/yandex_machine.pub
 
 etc/ssh/sshd_config
 Разрешаем от пользователя root
-
-Master_Ivan
-Prod_Ivan
-Build_Ivan
 #### Generate ssh key in master server
 ```
 ssh-keygen
@@ -61,8 +57,9 @@ PasswordAuthetification yes
 
 ```
 
-
+```
 service sshd restart
+```
 
 ```
 passwd root
