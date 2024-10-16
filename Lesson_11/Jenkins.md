@@ -56,6 +56,19 @@ nano /etc/tomcat9/tomcat-users.xml
 service tomcat9 restart
 ```
 ---
+#### Settings Jenkins
+1. Add credentionals (user with password)
+   username: deployer
+   password: deploy
+2. Add tools - Maven
+   m3
+   last version
+3. Add plugins
+   - Deploy to container
+   - 
+---
+#### Add new Job
+
 
 
 
