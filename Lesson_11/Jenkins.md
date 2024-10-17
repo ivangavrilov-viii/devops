@@ -13,6 +13,7 @@ This section describes
 ## Useful links:
 [Zoom](https://us06web.zoom.us/rec/share/0_P50cS3TLq1cDAKD0x8Wzwa_psYWUtU9N6hkxt2hDvKKHgBtgvpt2nlYfHgPQSe.ho_oLTHP_QW4qdBB) Access code: ```x^A6Ns*P```
 [GitHub demo18](https://github.com/dkgnim/demo18)
+[Jenkins Pipeline](https://www.jenkins.io/doc/book/pipeline/)
 
 
 
@@ -21,7 +22,7 @@ This section describes
 ---
 
 ---
-### View (13 минута)
+### View (1.10 минута)
 ![[GMT20241014-172552_Recording_1600x1024.mp4]]
 
 ---
@@ -68,6 +69,46 @@ service tomcat9 restart
    - 
 ---
 #### Add new Job
+---
+#### Add webhooks from Git
+Go to project settings -> Webhooks -> Add webhook
+```
+Payload_url: ip_jenkins:8080/github-webhook/
+Content_type: application/json
+```
+---
+#### Set webhooks in Jenkins
+Go Job settings
+triggers
+Select "GitHub hook triger for GITScm polling"
+
+---
+#### Create a new job (type: pipeline)
+```GROOVY
+pipeline {
+	agent any
+	
+	stages {
+		stage ('git clone') {
+			steps {
+				echo 'git clone'
+			}
+		}
+		stage ('build') {
+			steps {
+				echo 'build'
+			}
+		}
+		stage ('deploy') {
+			steps {
+				echo 'deploy'
+			}
+		}
+	}
+}
+```
+
+
 
 
 
