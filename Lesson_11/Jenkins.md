@@ -22,7 +22,7 @@ This section describes
 ---
 
 ---
-### View (1.10 минута)
+### View (1.29 минута)
 ![[GMT20241014-172552_Recording_1600x1024.mp4]]
 
 ---
