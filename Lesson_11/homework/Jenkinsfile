@@ -1,48 +1,69 @@
 pipeline {
-  agent {
-
-    docker {
-      image 'devcvs-srv01:5000/shop2-backend/jenkins-agent'
+    agent {
+        docker {
+            image 'maven:3.8.1-jdk-8'
+        }
     }
 
-  }
-
-  stages {
-
-    stage('Copy source with configs') {
-      steps {
-        git(url: 'http://cvs.tinkoff-dbs1.west.com/backendsbox/shop2.backend.git', branch: 'backend1-staging', poll: true, credentialsId: 'git')
-        sh 'ssh-keyscan -H devbuild-srv01 >> ~/.ssh/known_hosts'
-        sh 'scp jenkins@devbuild-srv01:/home/jenkins/build/configs/staging/gateway-api/application-business-config-defaults.yml gateway-api/src/main/resources/application-business-config-defaults.yml'
-      }
+    environment {
+        DOCKER_IMAGE = 'your-docker-repo/boxfuse-hello' // Название вашего Docker образа
+        DOCKER_REGISTRY = 'your-docker-registry.com' // Ваш Docker Registry
+        DOCKER_CREDENTIALS = 'docker-creds' // Jenkins credentials ID для Docker
     }
 
-    stage('Build jar') {
-      steps {
-        sh 'gradle bootRepackage'
-      }
+    stages {
+        stage('Clone project from github') {
+            steps {
+                git(url: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git', branch: 'master')
+            }
+        }
+
+        stage('Build WAR') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'cp target/hello-1.0.war ./docker/'
+                sh '''
+                docker build -t ${DOCKER_IMAGE}:1.0.0 ./docker
+                '''
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                // Вход в Docker Registry
+                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin ${DOCKER_REGISTRY}"
+                }
+                // Пуш Docker-образа
+                sh "docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Пример деплоя Docker-образа на удаленный сервер
+                sh '''
+                ssh user@remote-server << EOF
+                docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}
+                docker stop boxfuse-hello || true
+                docker rm boxfuse-hello || true
+                docker run -d --name boxfuse-hello -p 8080:8080 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}
+                EOF
+                '''
+            }
+        }
     }
 
-    stage('Make docker image') {
-      steps {
-        sh 'cp -R gateway-api/build/libs/* docker-setup/shop/gateway-api && cd docker-setup/shop/gateway-api && docker build --tag=gateway-api .'
-        sh '''docker tag gateway-api devcvs-srv01:5000/shop2-backend/gateway-api:2-staging && docker push devcvs-srv01:5000/shop2-backend/gateway-api:2-staging'''
-
-      }
+    post {
+        always {
+            // Очистка рабочих файлов
+            cleanWs()
+        }
     }
-
-    stage('Run docker on devbe-srv01') {
-      steps {
-        sh 'ssh-keyscan -H devbe-srv01 >> ~/.ssh/known_hosts'
-        sh '''ssh jenkins@devbe-srv01 << EOF
-	sudo docker pull devcvs-srv01:5000/shop2-backend/gateway-api:2-staging
-	cd /etc/shop/docker
-	sudo docker-compose up -d
-EOF'''
-      }
-    }
-  }
-  triggers {
-    pollSCM('*/1 H * * *')
-  }
 }
