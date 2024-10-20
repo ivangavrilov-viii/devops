@@ -13,15 +13,11 @@
 ---
 ## Useful links:
 https://github.com/shephertz/App42PaaS-Java-MySQL-Sample
+[Kuberbates the hard way - GitHub](https://github.com/kelseyhightower/kubernetes-the-hard-way)
 
 
-
-## Content:
+### Content:
 ---
-```
-docker run --privileged -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher:v2.4-head-linux-amd64
-```
-
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -74,8 +70,28 @@ spec:
 
 ---
 ### Lesson steps
-#### Prepare server
+#### Install kubernetes
+Kuberbates the hard way
 ```
+sudo su
+apt update
+apt install docker.io
+docker run --privileged -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher:v2.4-head-linux-amd64
+```
+
+```
+Add cluster
+Custom kind
+```
+
+Select Kubernetes version
+```
+1.15.12 
+```
+
+Node options
+```
+select all
 
 ```
 
