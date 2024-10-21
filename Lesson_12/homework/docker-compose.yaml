@@ -4,8 +4,8 @@ services:
 
   production:
     build:
-      context: ./production
-      dockerfile: production.Dockerfile
+      context: .
+      dockerfile: prod.Dockerfile
     volumes:
       - build_volume:/var/lib/tomcat9/webapps/
     ports:
