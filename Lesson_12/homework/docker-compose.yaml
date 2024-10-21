@@ -17,19 +17,27 @@ services:
       - '8080:8080'
     volumes:
       - app_data:/app/target
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=app_db
+      - DB_USER=root
+      - DB_PASSWORD=root_password
     depends_on:
       - build_app
-#      - db
+      - db
 
-#  db:
-#    image: mysql:8.0
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=rootpassword
-#      - MYSQL_DATABASE=db
-#    ports:
-#      - '3306:3306'
-#    volumes:
-#      - db_volume:/var/lib/mysql
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_volume:/var/lib/mysql
 
 volumes:
   app_data:
