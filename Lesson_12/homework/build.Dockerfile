@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as builder
+FROM ubuntu:18.04 as build
 RUN apt update
 RUN apt install default-jdk -y
 RUN apt install maven -y
