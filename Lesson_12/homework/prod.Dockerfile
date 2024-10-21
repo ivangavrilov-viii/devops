@@ -4,7 +4,7 @@ RUN apt install default-jdk -y
 RUN apt install maven -y
 RUN apt install git -y
 RUN apt install wget -y
-RUN wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.96/>
+RUN wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.96/bin/apache-tomcat-9.0.96.tar.gz
 RUN tar xzf apache-tomcat-9.0.96.tar.gz
 RUN mv apache-tomcat-9.0.96 /var/lib/tomcat9
 RUN rm -r apache-tomcat-9.0.96.tar.gz
