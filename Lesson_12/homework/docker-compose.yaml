@@ -19,7 +19,7 @@ services:
       - app_data:/app/target
     depends_on:
       - build_app
-      - db
+#      - db
 
 #  db:
 #    image: mysql:8.0
