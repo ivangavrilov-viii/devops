@@ -1,12 +1,14 @@
 ---
-version: '3'
+version: '3.8'
+
 services:
+
   production:
     build:
       context: .
       dockerfile: prod.Dockerfile
     volumes:
-      - build_volume:/var/lib/tomcat9/webapps/
+      - app_data:/var/lib/tomcat9/webapps/
     ports:
       - '8080:8080'
     environment:
@@ -17,14 +19,14 @@ services:
       - MYSQL_DATABASE=db
     depends_on:
       - db
-      - build
+      - builder
 
-  build:
+  builder:
     build:
       context: .
       dockerfile: build.Dockerfile
     volumes:
-      - build_volume:/app
+      - app_data:/app
 
   db:
     image: mysql:8.0
@@ -37,6 +39,6 @@ services:
       - db_volume:/var/lib/mysql
 
 volumes:
-  build_volume:
+  app_data:
   db_volume:
 ...
