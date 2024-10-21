@@ -2,6 +2,12 @@
 version: '3.8'
 
 services:
+  builder:
+    build:
+      context: .
+      dockerfile: build.Dockerfile
+    volumes:
+      - app_data:/app
 
   production:
     build:
@@ -20,13 +26,6 @@ services:
     depends_on:
       - db
       - builder
-
-  builder:
-    build:
-      context: .
-      dockerfile: build.Dockerfile
-    volumes:
-      - app_data:/app
 
   db:
     image: mysql:8.0
