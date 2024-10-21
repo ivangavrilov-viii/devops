@@ -1,0 +1,42 @@
+---
+version: '3.8'
+services:
+  builder:
+    build:
+      context: .
+      dockerfile: build.Dockerfile
+    volumes:
+      - build_volume:/app/target/
+
+  production:
+    build:
+      context: .
+      dockerfile: production.Dockerfile
+    volumes:
+      - build_volume:/app
+    ports:
+      - '8080:8080'
+    environment:
+      - DB_USERNAME=root
+      - DB_PORT=5432
+      - DB_PASSWORD=rootpassword
+      - DB_IP=158.160.79.92
+      - DB_NAME=db
+    depends_on:
+      - builder
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      - DB_ROOT_PASSWORD=rootpassword
+      - DB_NAME=db
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_volume:/var/lib/mysql
+
+volumes:
+  build_volume:
+  db_volume:
+...
