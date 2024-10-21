@@ -1,7 +1,6 @@
 ---
-version: '3.8'
+version: '3'
 services:
-
   production:
     build:
       context: .
@@ -20,7 +19,7 @@ services:
       - db
       - builder
 
-  builder:
+  build:
     build:
       context: .
       dockerfile: build.Dockerfile
