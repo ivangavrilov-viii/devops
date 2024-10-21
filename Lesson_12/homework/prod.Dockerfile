@@ -12,6 +12,6 @@ RUN mkdir /app
 WORKDIR /app
 RUN git clone https://github.com/shephertz/App42PaaS-Java-MySQL-Sample.git .
 RUN mvn package
-RUN cp /boxfuse-sample-java-war-hello/target/hello-1.0.war /var/lib/tomcat9/webapps/
+RUN cp /app/target/App42PaaS-Java-MySQL-Sample.war /var/lib/tomcat9/webapps/app.war
 EXPOSE 8080
 CMD ["/var/lib/tomcat9/bin/catalina.sh", "run"]
