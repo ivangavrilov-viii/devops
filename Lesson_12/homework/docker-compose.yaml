@@ -19,10 +19,10 @@ services:
       - app_data:/app/target
     environment:
       - DB_HOST=db
-      - DB_PORT=8514
-      - DB_NAME=dd
-      - DB_USER=acp4pogynvaeidfj
-      - DB_PASSWORD=jc31d2qyy7h9jv5jn1u9uosjksxzaizw
+      - DB_PORT=5432
+      - DB_NAME=app_db
+      - DB_USER=root
+      - DB_PASSWORD=root_password
     depends_on:
       - build_app
       - db
@@ -30,12 +30,12 @@ services:
   db:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: jc31d2qyy7h9jv5jn1u9uosjksxzaizw
-      MYSQL_DATABASE: dd
-      MYSQL_USER: acp4pogynvaeidfj
-      MYSQL_PASSWORD: jc31d2qyy7h9jv5jn1u9uosjksxzaizw
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root_password
     ports:
-      - "8514:8514"
+      - "5432:5432"
     volumes:
       - db_volume:/var/lib/mysql
 
