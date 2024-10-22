@@ -29,13 +29,14 @@ services:
 
   db:
     image: mysql:8
+    restart: always
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: app_db
       MYSQL_USER: root
       MYSQL_PASSWORD: root_password
-    ports:
-      - "5432:5432"
     volumes:
       - db_volume:/var/lib/mysql
 
