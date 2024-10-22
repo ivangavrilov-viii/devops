@@ -33,7 +33,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: app_db
-      MYSQL_USER: root
       MYSQL_PASSWORD: root_password
     volumes:
       - db_volume:/var/lib/mysql
