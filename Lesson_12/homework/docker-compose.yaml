@@ -14,7 +14,7 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - app_data:/var/lib/tomcat9/webapps/
+      - app_data:/usr/local/tomcat/webapps/
     environment:
       - DB_HOST=db
       - DB_PORT=3306
