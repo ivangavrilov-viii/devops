@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   build_app:
     build:
       context: .
       dockerfile: build.Dockerfile
     volumes:
-      - app_data:/app/target
+      - app_data:/app/target/
 
   prod_service:
     build:
@@ -16,10 +14,10 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - app_data:/app/target
+      - app_data:/var/lib/tomcat9/webapps/
     environment:
       - DB_HOST=db
-      - DB_PORT=5432
+      - DB_PORT=3306
       - DB_NAME=app_db
       - DB_USER=root
       - DB_PASSWORD=root_password
