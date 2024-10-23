@@ -33,6 +33,13 @@ docker-compose up -d
 ```
 
 
+```bash
+docker rmi -f $(docker images -aq)
+```
+
+```bash
+docker rm -vf $(docker ps -aq)
+```
 
 ## Additional
 ---
