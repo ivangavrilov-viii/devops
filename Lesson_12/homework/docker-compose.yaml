@@ -15,19 +15,12 @@ services:
       - '8080:8080'
     volumes:
       - app_data:/usr/local/tomcat/webapps/
-    environment:
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_NAME=app_db
-      - DB_USER=root
-      - DB_PASSWORD=root_password
     depends_on:
       - build_app
       - db
 
   db:
     image: mysql:8
-    restart: always
     ports:
       - "3306:3306"
     environment:
