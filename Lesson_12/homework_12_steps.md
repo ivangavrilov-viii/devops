@@ -26,7 +26,11 @@ chmod +x /bin/docker-compose
 docker-compose --version
 ```
 ---
-
+```
+git clone https://github.com/ivangavrilov-viii/devops.git
+cd devops/Lesson_12/homework
+docker-compose up -d
+```
 
 
 
