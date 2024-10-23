@@ -5,12 +5,6 @@ pipeline {
         }
     }
 
-    environment {
-        DOCKER_IMAGE = 'your-docker-repo/boxfuse-hello' // Название вашего Docker образа
-        DOCKER_REGISTRY = 'your-docker-registry.com' // Ваш Docker Registry
-        DOCKER_CREDENTIALS = 'docker-creds' // Jenkins credentials ID для Docker
-    }
-
     stages {
         stage('Clone project from github') {
             steps {
@@ -28,42 +22,102 @@ pipeline {
             steps {
                 sh 'cp target/hello-1.0.war ./docker/'
                 sh '''
-                docker build -t ${DOCKER_IMAGE}:1.0.0 ./docker
+                docker build hw_11:1.0.0 .
+                docker image tag hw_11:1.0.0 gavril23/hw_11:1.0.0
+                docker push gavril23/hw_11:1.0.0
                 '''
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Run docker on build_server') {
             steps {
                 // Вход в Docker Registry
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                    sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin ${DOCKER_REGISTRY}"
-                }
-                // Пуш Docker-образа
-                sh "docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-                sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                // Пример деплоя Docker-образа на удаленный сервер
                 sh '''
-                ssh user@remote-server << EOF
-                docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}
-                docker stop boxfuse-hello || true
-                docker rm boxfuse-hello || true
-                docker run -d --name boxfuse-hello -p 8080:8080 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}
-                EOF
+                    ssh root@build_server << EOF
+                    docker pull gavril23/hw_11:1.0.0
+                    docker run -d -p 8080:8080 gavril23/hw_11:1.0.0
+                    EOF
                 '''
             }
         }
     }
 
-    post {
-        always {
-            // Очистка рабочих файлов
-            cleanWs()
-        }
+    triggers {
+        pollSCM('*/1 H * * *')
     }
 }
+
+
+// VERSION 2
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.8.1-jdk-8'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Проброс Docker сокета в контейнер
+        }
+    }
+
+    environment {
+        DOCKER_REGISTRY = 'gavril23'  // DockerHub username
+        DOCKER_IMAGE = 'hw_11'
+        DOCKER_TAG = '1.0.0'
+        BUILD_SERVER = 'root@build_server'
+    }
+
+    stages {
+        stage('Clone project from github') {
+            steps {
+                git(url: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git', branch: 'master')
+            }
+        }
+
+        stage('Build WAR') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'cp target/hello-1.0.war ./docker/'  // Убедись, что папка docker существует
+                    sh '''
+                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                    docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                    '''
+                }
+            }
+        }
+
+        stage('Docker Login & Push') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+                        sh 'docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}'
+                    }
+                }
+            }
+        }
+
+        stage('Run docker on build_server') {
+            steps {
+                script {
+                    sshagent(['build-server-ssh']) {  // Использование Jenkins credentials для SSH
+                        sh '''
+                        ssh $BUILD_SERVER << EOF
+                        docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                        docker run -d -p 8080:8080 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                        EOF
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+    triggers {
+        pollSCM('*/1 H * * *')  // Проверка исходников раз в час
+    }
+}
+
