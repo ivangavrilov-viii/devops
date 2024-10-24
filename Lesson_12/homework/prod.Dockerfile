@@ -8,3 +8,4 @@ RUN apt update && apt install -y default-jdk wget  && \
 
 EXPOSE 8080
 CMD ["/var/lib/tomcat9/bin/catalina.sh", "run"]
+RUN cp /var/lib/tomcat9/webapps/app/Config.properties /var/lib/tomcat9/webapps/ROOT/Config.properties

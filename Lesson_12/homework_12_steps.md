@@ -49,7 +49,7 @@ docker rm -vf $(docker ps -aq)
 ```
 
 ```
-docker exec -it <container_name_or_id> /bin/bash
+docker exec -it homework-prod_service-1 /bin/bash
 ```
 
 ## Additional
