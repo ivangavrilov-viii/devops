@@ -48,5 +48,9 @@ docker rmi -f $(docker images -aq)
 docker rm -vf $(docker ps -aq)
 ```
 
+```
+docker exec -it <container_name_or_id> /bin/bash
+```
+
 ## Additional
 ---

@@ -5,3 +5,4 @@ WORKDIR /app
 ARG CACHEBUST=1
 RUN git clone https://github.com/ivangavrilov-viii/app-for-compose.git .
 RUN mvn package
+RUN cp WebContent/ target/
