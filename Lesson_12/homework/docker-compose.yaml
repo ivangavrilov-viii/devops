@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: build.Dockerfile
     volumes:
-      - app_data:/app/target/
+      - app_data:/app/
 
   prod_service:
     build:
@@ -14,23 +14,23 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - app_data:/var/lib/tomcat9/webapps/
+      - app_data:/app/
     depends_on:
       - build_app
-      - db
-
-  db:
-    image: mysql:8
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: app_db
-      MYSQL_PASSWORD: root_password
-    volumes:
-      - db_volume:/var/lib/mysql
+#      - db
+#
+#  db:
+#    image: mysql:8
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root_password
+#      MYSQL_DATABASE: app_db
+#      MYSQL_PASSWORD: root_password
+#    volumes:
+#      - db_volume:/var/lib/mysql
 
 volumes:
   app_data:
-  db_volume:
+#  db_volume:
 ...
