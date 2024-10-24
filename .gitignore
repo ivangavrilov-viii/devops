@@ -9,6 +9,7 @@ test_*
 
 *.mp4
 *.m4a
+*.webm
 
 
 templates_md/
