@@ -14,7 +14,7 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - app_data:/usr/local/tomcat/webapps/
+      - app_data:/var/lib/tomcat9/webapps/
     depends_on:
       - build_app
       - db
