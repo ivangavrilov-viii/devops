@@ -17,8 +17,8 @@ services:
       - app_data:/var/lib/tomcat9/webapps/
     depends_on:
       - build_app
-      - db
-
+#      - db
+#
 #  db:
 #    image: mysql:8
 #    ports:
