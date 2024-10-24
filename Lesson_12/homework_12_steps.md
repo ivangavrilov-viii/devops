@@ -26,12 +26,19 @@ chmod +x /bin/docker-compose
 docker-compose --version
 ```
 ---
-```
+```bash
 git clone https://github.com/ivangavrilov-viii/devops.git
 cd devops/Lesson_12/homework
 docker-compose up -d
 ```
 
+```bash
+docker-compose up -d
+```
+
+```bash
+docker-compose down
+```
 
 ```bash
 docker rmi -f $(docker images -aq)
