@@ -1,41 +1,51 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.8.1-jdk-8'
+            image 'gavril23/base_image:latest'
         }
     }
 
     stages {
         stage('Clone project from github') {
             steps {
-                git(url: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git', branch: 'master')
+                git(url: 'https://github.com/ivangavrilov-viii/boxfuse-app.git', branch: 'master')
             }
         }
 
         stage('Build WAR') {
             steps {
-                sh 'mvn package'
+                dir('boxfuse-app') {
+                    sh 'mvn package'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'cp target/hello-1.0.war ./docker/'
-                sh '''
-                docker build hw_11:1.0.0 .
-                docker image tag hw_11:1.0.0 gavril23/hw_11:1.0.0
-                docker push gavril23/hw_11:1.0.0
-                '''
+                dir('boxfuse-app') {
+                    sh 'cp target/hello-1.0.war .'
+                    sh 'docker build -t gavril23/hw_11 . '
+                }
+            }
+        }
+
+        stage('Docker Login & Push') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'docker login -u $DOCKER_USER -p $DOCKER_PASSWORD'
+                        sh 'docker push gavril23/hw_11'
+                    }
+                }
             }
         }
 
         stage('Run docker on build_server') {
             steps {
-                // Вход в Docker Registry
-                sh '''
-                    ssh root@build_server << EOF
-                    docker pull gavril23/hw_11:1.0.0
-                    docker run -d -p 8080:8080 gavril23/hw_11:1.0.0
+                sh 'ssh-keyscan -H build_server >> ~/.ssh/known_hosts'
+                sh '''ssh root@build_server << EOF
+                    docker pull gavril23/hw_11
+                    docker run -d -p 8080:8080 gavril23/hw_11
                     EOF
                 '''
             }
@@ -46,78 +56,3 @@ pipeline {
         pollSCM('*/1 H * * *')
     }
 }
-
-
-// VERSION 2
-pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.1-jdk-8'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Проброс Docker сокета в контейнер
-        }
-    }
-
-    environment {
-        DOCKER_REGISTRY = 'gavril23'  // DockerHub username
-        DOCKER_IMAGE = 'hw_11'
-        DOCKER_TAG = '1.0.0'
-        BUILD_SERVER = 'root@build_server'
-    }
-
-    stages {
-        stage('Clone project from github') {
-            steps {
-                git(url: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git', branch: 'master')
-            }
-        }
-
-        stage('Build WAR') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    sh 'cp target/hello-1.0.war ./docker/'  // Убедись, что папка docker существует
-                    sh '''
-                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
-                    docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                    '''
-                }
-            }
-        }
-
-        stage('Docker Login & Push') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
-                        sh 'docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}'
-                    }
-                }
-            }
-        }
-
-        stage('Run docker on build_server') {
-            steps {
-                script {
-                    sshagent(['build-server-ssh']) {  // Использование Jenkins credentials для SSH
-                        sh '''
-                        ssh $BUILD_SERVER << EOF
-                        docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker run -d -p 8080:8080 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        EOF
-                        '''
-                    }
-                }
-            }
-        }
-    }
-
-    triggers {
-        pollSCM('*/1 H * * *')  // Проверка исходников раз в час
-    }
-}
-
