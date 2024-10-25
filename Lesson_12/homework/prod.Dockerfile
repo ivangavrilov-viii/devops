@@ -7,6 +7,7 @@ RUN apt update && apt install -y default-jdk wget  && \
     rm -r apache-tomcat-9.0.96.tar.gz
 
 RUN mkdir /ROOT
-RUN mv /var/lib/tomcat9/webapps/WebContent/Config.properties /ROOT/Config.properties
+WORKDIR /ROOT
+RUN cp /var/lib/tomcat9/webapps/WebContent/Config.properties .
 EXPOSE 8080
 CMD ["/var/lib/tomcat9/bin/catalina.sh", "run"]
