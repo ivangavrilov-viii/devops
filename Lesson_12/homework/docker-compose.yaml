@@ -6,6 +6,7 @@ services:
       dockerfile: build.Dockerfile
     volumes:
       - app_data:/app/target/
+      - root_data:/ROOT/
 
   prod_service:
     build:
@@ -15,6 +16,7 @@ services:
       - '8080:8080'
     volumes:
       - app_data:/var/lib/tomcat9/webapps/
+      - root_data:/ROOT/
     depends_on:
       - build_app
       - db
@@ -33,4 +35,5 @@ services:
 volumes:
   app_data:
   db_volume:
+  root_data:
 ...
