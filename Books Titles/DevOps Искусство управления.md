@@ -3,7 +3,7 @@
 ```
 URL:: [[DevOps_Искусство_управления.pdf|Book]]
 Author:: "Дженнифер Дэвис"
-Прогресс_Бар:: <p> <progress max=100 value=57> </progress> 57% </p>
+Прогресс_Бар:: <p> <progress max=100 value=64> </progress> 64% </p>
 ```
 ---
 ## Книга

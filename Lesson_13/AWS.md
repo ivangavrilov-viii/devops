@@ -11,7 +11,7 @@ This section describes
 
 ---
 ## Useful links:
-
+[Zoom](https://us06web.zoom.us/rec/share/Cfr1tLFteUz5PZF0cEkKgyTxue_OzFm7MfbbQnSJjdECEzxjkVL3MZNrVSmjGml9.eoC0bqtVdgLy3KOc) F701K&*A
 
 
 ## Content:
