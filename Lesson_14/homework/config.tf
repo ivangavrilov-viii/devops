@@ -39,8 +39,7 @@ resource "yandex_compute_instance" "build-machine" {
   }
 
   metadata = {
-    foo      = "bar"
-    ssh-keys = "${file("~/.ssh/id_rsa.pub")}"
+    user-data = "${file("/home/ivan/config.txt")}"
   }
 }
 
@@ -69,8 +68,7 @@ resource "yandex_compute_instance" "prod-machine" {
   }
 
   metadata = {
-    foo      = "bar"
-    ssh-keys = "${file("~/.ssh/id_rsa.pub")}"
+    user-data = "${file("/home/ivan/config.txt")}"
   }
 }
 
