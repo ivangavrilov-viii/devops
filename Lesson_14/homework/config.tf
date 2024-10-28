@@ -14,8 +14,8 @@ provider "yandex" {
   zone      = "ru-central1-b"
 }
 
-resource "yandex_compute_instance" "build_machine" {
-  name        = "build_machine"
+resource "yandex_compute_instance" "build-machine" {
+  name        = "build-machine"
   platform_id = "standard-v1"
   zone        = "ru-central1-b"
 
@@ -35,6 +35,7 @@ resource "yandex_compute_instance" "build_machine" {
   network_interface {
     index     = 1
     subnet_id = yandex_vpc_subnet.foo.id
+    nat       = true # Эта строка разрешает присвоение публичного IP-адреса
   }
 
   metadata = {
@@ -43,8 +44,8 @@ resource "yandex_compute_instance" "build_machine" {
   }
 }
 
-resource "yandex_compute_instance" "prod_machine" {
-  name        = "prod_machine"
+resource "yandex_compute_instance" "prod-machine" {
+  name        = "prod-machine"
   platform_id = "standard-v1"
   zone        = "ru-central1-b"
 
@@ -64,6 +65,7 @@ resource "yandex_compute_instance" "prod_machine" {
   network_interface {
     index     = 2
     subnet_id = yandex_vpc_subnet.foo.id
+    nat       = true # Эта строка разрешает присвоение публичного IP-адреса
   }
 
   metadata = {
@@ -82,9 +84,9 @@ resource "yandex_vpc_subnet" "foo" {
 }
 
 output "build_machine_ip" {
-  value = yandex_compute_instance.build_machine.network_interface.0.nat_ip_address
+  value = yandex_compute_instance.build-machine.network_interface.0.nat_ip_address
 }
 
 output "prod_machine_ip" {
-  value = yandex_compute_instance.prod_machine.network_interface.0.nat_ip_address
+  value = yandex_compute_instance.prod-machine.network_interface.0.nat_ip_address
 }
