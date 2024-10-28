@@ -44,8 +44,8 @@ resource "yandex_compute_instance" "build-machine" {
 
   provisioner "remote-exec" {
     inline = [
-      "apt update && apt install docker.io git -y",
-      "git clone https://github.com/ivangavrilov-viii/devops.git /",
+      "sudo apt update && sudo apt install docker.io git -y",
+      "sudo git clone https://github.com/ivangavrilov-viii/devops.git /",
     ]
 
     connection {
