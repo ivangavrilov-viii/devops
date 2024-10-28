@@ -36,7 +36,6 @@ provider_installation {
 
 ```
 wget https://hashicorp-releases.yandexcloud.net/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip
-cd terraform
 unzip terraform_1.9.8_linux_amd64.zip
 cp terraform /bin
 terraform --version
@@ -65,6 +64,9 @@ terraform init
 terraform validate
 ```
 
+```
+nano config.txt
+```
 
 ```
 #cloud-config

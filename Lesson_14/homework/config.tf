@@ -8,9 +8,9 @@ terraform {
 }
 
 provider "yandex" {
-  token     = "y0_AgAAAABox0RxAATuwQAAAAEWPLPRAAD3Qlb-df5NS5We-ke0zPZsCYNajg"
-  cloud_id  = "b1gt1ccagp0jtpemjero"
-  folder_id = "b1gb34lf7n5tljljhr8m"
+  token     = "y0_AgAAAABlNEnMAATuwQAAAAEWR91KAADSoqOlDmpGZKHWwLRIsv5ozCv15Q"
+  cloud_id  = "b1gtjgth71n4h3sit5kf"
+  folder_id = "b1geo1bhheiifpunotk4"
   zone      = "ru-central1-b"
 }
 
@@ -26,8 +26,8 @@ resource "yandex_compute_instance" "build-machine" {
 
   boot_disk {
     initialize_params {
-      image_id = "fd87i1kfq2iv96be358f"  # ID образа для загрузочного диска
-      size     = 35                      # Размер диска в ГБ
+      image_id = "fd83o04luhqgqs7ul2l4"  # ID образа для загрузочного диска
+      size     = 60                     # Размер диска в ГБ
       type     = "network-ssd"
     }
   }
@@ -39,26 +39,19 @@ resource "yandex_compute_instance" "build-machine" {
   }
 
   metadata = {
-    user-data = "${file("/home/ivan/config.txt")}"
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt update",
-      "sudo apt install -y openjdk-11-jdk maven git",
-
-      # Клонируем репозиторий
-      "git clone https://github.com/<ВАШ_ПРОЕКТ>.git /home/ubuntu/app",
-
-      # Переходим в папку с проектом и выполняем сборку
-      "cd /home/ubuntu/app",
-      "mvn clean package"
+      "apt update && apt install docker.io git -y",
+      "git clone https://github.com/ivangavrilov-viii/devops.git /",
     ]
 
     connection {
       type     = "ssh"
       host     = self.network_interface.0.nat_ip_address
-      user     = "root"
+      user     = "ubuntu"
       private_key = file("~/.ssh/id_rsa")
     }
   }
@@ -71,8 +64,8 @@ resource "yandex_compute_instance" "prod-machine" {
 
   boot_disk {
     initialize_params {
-      image_id = "fd87i1kfq2iv96be358f"  # ID образа для загрузочного диска
-      size     = 35                      # Размер диска в ГБ
+      image_id = "fd83o04luhqgqs7ul2l4"  # ID образа для загрузочного диска
+      size     = 60                      # Размер диска в ГБ
       type     = "network-ssd"
     }
   }
@@ -89,7 +82,7 @@ resource "yandex_compute_instance" "prod-machine" {
   }
 
   metadata = {
-    user-data = "${file("/home/ivan/config.txt")}"
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
 }
 
