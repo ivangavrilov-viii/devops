@@ -17,6 +17,24 @@ This section describes
 
 ## Content:
 ---
+
+---
+### Report (1.28 минуты)
+![[GMT20241024-174201_Recording_1280x1024.mp4]]
+
+---
+### Homework
+![[homework_14.pdf]]
+
+---
+### Lesson steps
+
+#### 1. Install Docker
+```bash
+apt update && apt install unzip docker.io -y
+```
+---
+#### 2. Set a mirror for download terraform
 ```bash
 nano ~/.terraformrc
 ```
@@ -32,17 +50,57 @@ provider_installation {
   }
 }
 ```
-
 ---
-### Report
-![[GMT20241024-174201_Recording_1280x1024.mp4]]
-
+#### 3. Install terraform from git rep
+```
+git clone https://github.com/dkgnim/terraform.git
+cd terraform
+unzip terraform_1.7.0_linux_amd64.zip
+cp terraform /bin
+terraform --version
+```
 ---
-### Homework
-![[homework_14.pdf]]
+#### 4. Install docker in terraform
+```
+mkdir terraforms
+nano config.tf
+```
 
+```
+terraform {
+	required_providers {
+		docker = {
+			source = "kreuzwerker/docker"
+			version = "3.0.2"
+		}
+	}
+}
+
+provider "docker " {
+	host = "unix:///var/run/docker.sock"
+}
+
+resource "docker_container" "foo" {
+	image = docker_image.nginx.image_id
+	name = "foo"
+	ports {
+		internal = 80
+		external = 80
+	}
+}
+
+resource "docker_image" "nginx" {
+	name = "nginx:latest"
+}
+```
 ---
-
-
+#### 5. Start terraform
+```bash
+terraform init
+terraform plan
+terraform apply
+terraform show
+terraform destroy
+```
 
 
