@@ -41,6 +41,27 @@ resource "yandex_compute_instance" "build-machine" {
   metadata = {
     user-data = "${file("/home/ivan/config.txt")}"
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt update",
+      "sudo apt install -y openjdk-11-jdk maven git",
+
+      # Клонируем репозиторий
+      "git clone https://github.com/<ВАШ_ПРОЕКТ>.git /home/ubuntu/app",
+
+      # Переходим в папку с проектом и выполняем сборку
+      "cd /home/ubuntu/app",
+      "mvn clean package"
+    ]
+
+    connection {
+      type     = "ssh"
+      host     = self.network_interface.0.nat_ip_address
+      user     = "root"
+      private_key = file("~/.ssh/id_rsa")
+    }
+  }
 }
 
 resource "yandex_compute_instance" "prod-machine" {
