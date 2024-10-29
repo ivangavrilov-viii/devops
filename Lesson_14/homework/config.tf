@@ -54,7 +54,6 @@ resource "yandex_compute_instance" "build-machine" {
       "sudo docker build -t prod .",
       "sudo docker run -d -p 8080:8080 --name=prod prod",
       "sudo docker image tag prod gavril23/boxfuse",
-      "sudo docker login -u gavril23 -p dckr_pat_9xLTxSOzfdbPtuLoaHsRLziMGNA",
       "sudo docker push gavril23/boxfuse",
     ]
 
