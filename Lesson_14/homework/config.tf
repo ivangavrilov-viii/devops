@@ -8,9 +8,9 @@ terraform {
 }
 
 provider "yandex" {
-  token     = "y0_AgAAAABlNEnMAATuwQAAAAEWR91KAADSoqOlDmpGZKHWwLRIsv5ozCv15Q"
-  cloud_id  = "b1gtjgth71n4h3sit5kf"
-  folder_id = "b1geo1bhheiifpunotk4"
+  token     = "TOKEN"
+  cloud_id  = "ID"
+  folder_id = "ID"
   zone      = "ru-central1-b"
 }
 
@@ -53,8 +53,9 @@ resource "yandex_compute_instance" "build-machine" {
       "cd /devops/Lesson_14/homework/prod",
       "sudo docker build -t prod .",
       "sudo docker run -d -p 8080:8080 --name=prod prod",
-      "sudo docker image tag prod gavril23/boxfuse",
-      "sudo docker push gavril23/boxfuse",
+      "sudo docker image tag prod USERNAME/boxfuse",
+      "sudo docker login -u USERNAME -p PASSWORD",
+      "sudo docker push USERNAME/boxfuse",
     ]
 
     connection {
@@ -70,6 +71,7 @@ resource "yandex_compute_instance" "prod-machine" {
   name        = "prod-machine"
   platform_id = "standard-v1"
   zone        = "ru-central1-b"
+  depends_on = [yandex_compute_instance.build-machine]
 
   boot_disk {
     initialize_params {
@@ -94,11 +96,12 @@ resource "yandex_compute_instance" "prod-machine" {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
 
+
   provisioner "remote-exec" {
     inline = [
       "sudo apt update && sudo apt install docker.io",
-      "sudo docker pull gavril23/boxfuse",
-      "sudo docker run -d -p 8080:8080 gavril23/boxfuse",
+      "sudo docker pull USERNAME/boxfuse",
+      "sudo docker run -d -p 8080:8080 USERNAME/boxfuse",
     ]
 
     connection {
