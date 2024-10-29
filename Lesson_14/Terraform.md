@@ -19,7 +19,7 @@ This section describes
 ---
 
 ---
-### Report (1.28 минуты)
+### Report
 ![[GMT20241024-174201_Recording_1280x1024.mp4]]
 
 ---

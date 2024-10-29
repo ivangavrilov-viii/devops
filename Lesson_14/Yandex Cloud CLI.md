@@ -8,11 +8,6 @@ https://yandex.cloud/ru/docs/cli/quickstart#linux_1
 ```
 
 ```
-y0_AgAAAABox0RxAATuwQAAAAEWPLPRAAD3Qlb-df5NS5We-ke0zPZsCYNajg
-y0_AgAAAABlNEnMAATuwQAAAAEWR91KAADSoqOlDmpGZKHWwLRIsv5ozCv15Q
-```
-
-```
 yc init
 ```
 
