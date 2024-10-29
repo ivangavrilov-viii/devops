@@ -29,7 +29,7 @@ This section describes
 docker run --name some-zabbix-appliance -p 80:80 -p 10051:10051 -d zabbix/zabbix-appliance:ubuntu-4.0-latest
 ```
 ---
-### View ()
+### View (10)
 ![[GMT20241028-172029_Recording_1280x1024.mp4]]
 
 ---
