@@ -49,10 +49,13 @@ resource "yandex_compute_instance" "build-machine" {
       "cd /devops/Lesson_14/homework/build",
       "sudo docker build -t test .",
       "sudo docker run -d --name=test test",
-      "sudo docker cp test:/app/target/hello-1.0.war /tmp/app.war",
+      "sudo docker cp test:/app/target/hello-1.0.war /devops/Lesson_14/homework/prod/app.war",
       "cd /devops/Lesson_14/homework/prod",
       "sudo docker build -t prod .",
       "sudo docker run -d -p 8080:8080 --name=prod prod",
+      "sudo docker image tag prod gavril23/boxfuse",
+      "sudo docker login -u gavril23 -p dckr_pat_9xLTxSOzfdbPtuLoaHsRLziMGNA",
+      "sudo docker push gavril23/boxfuse",
     ]
 
     connection {
@@ -90,6 +93,21 @@ resource "yandex_compute_instance" "prod-machine" {
 
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt update && sudo apt install docker.io",
+      "sudo docker pull gavril23/boxfuse",
+      "sudo docker run -d -p 8080:8080 gavril23/boxfuse",
+    ]
+
+    connection {
+      type     = "ssh"
+      host     = self.network_interface.0.nat_ip_address
+      user     = "ubuntu"
+      private_key = file("~/.ssh/id_rsa")
+    }
   }
 }
 
