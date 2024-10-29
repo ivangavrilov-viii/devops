@@ -27,7 +27,7 @@ resource "yandex_compute_instance" "build-machine" {
   boot_disk {
     initialize_params {
       image_id = "fd83o04luhqgqs7ul2l4"  # ID образа для загрузочного диска
-      size     = 60                     # Размер диска в ГБ
+      size     = 65                     # Размер диска в ГБ
       type     = "network-ssd"
     }
   }
@@ -45,7 +45,14 @@ resource "yandex_compute_instance" "build-machine" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt update && sudo apt install docker.io git -y",
-      "sudo git clone https://github.com/ivangavrilov-viii/devops.git /",
+      "sudo git clone https://github.com/ivangavrilov-viii/devops.git /devops",
+      "cd /devops/Lesson_14/homework/build",
+      "sudo docker build -t test .",
+      "sudo docker run -d --name=test test",
+      "sudo docker cp test:/app/target/hello-1.0.war /tmp/app.war",
+      "cd /devops/Lesson_14/homework/prod",
+      "sudo docker build -t prod .",
+      "sudo docker run -d -p 8080:8080 --name=prod prod",
     ]
 
     connection {
@@ -65,7 +72,7 @@ resource "yandex_compute_instance" "prod-machine" {
   boot_disk {
     initialize_params {
       image_id = "fd83o04luhqgqs7ul2l4"  # ID образа для загрузочного диска
-      size     = 60                      # Размер диска в ГБ
+      size     = 65                      # Размер диска в ГБ
       type     = "network-ssd"
     }
   }
