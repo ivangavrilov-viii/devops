@@ -4,15 +4,13 @@ pipeline {
     stages {
         stage('Clone project from github') {
             steps {
-                dir('/root') {
-                    git(url: 'https://github.com/ivangavrilov-viii/devops.git', branch: 'master')
-                }
+                git(url: 'https://github.com/ivangavrilov-viii/devops.git', branch: 'master')
             }
         }
 
         stage('Start terraform') {
             steps {
-                dir('devops/Exam') {
+                dir('Exam') {
                     sh '''
                         terraform init
                         terraform validate

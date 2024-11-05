@@ -67,6 +67,7 @@ wget https://hashicorp-releases.yandexcloud.net/terraform/1.9.8/terraform_1.9.8_
 unzip terraform_1.9.8_linux_amd64.zip
 cp terraform /bin
 terraform --version
+rm -r terraform_1.9.8_linux_amd64.zip
 ```
 ---
 #### Set Yandex CLI
