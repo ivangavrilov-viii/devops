@@ -4,7 +4,9 @@ pipeline {
     stages {
         stage('Clone project from github') {
             steps {
-                git(url: 'https://github.com/ivangavrilov-viii/devops.git', branch: 'master')
+                dir('/root') {
+                    git(url: 'https://github.com/ivangavrilov-viii/devops.git', branch: 'master')
+                }
             }
         }
 

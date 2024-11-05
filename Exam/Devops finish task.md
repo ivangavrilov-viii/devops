@@ -22,7 +22,25 @@ This section describes
 ---
 ### Steps
 #### Set Jenkins
+```bash
+sudo su 
+apt update && apt install docker.io -y
+```
 
+Install docker container Jenkins
+```bash
+docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 --restart=on-failure jenkins/jenkins:lts-jdk17
+```
+
+Search container_id for Jenkins
+```bash
+docker ps
+```
+
+Copy auth-code for Jenkins from logs
+```bash
+docker logs container_id 
+```
 ---
 #### Install and set Terraform
 ```bash
