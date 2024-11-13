@@ -1,0 +1,63 @@
+pipeline {
+    agent {
+        docker {
+            image 'gavril23/base_image'
+        }
+    }
+
+    stages {
+        stage('Clone project from github') {
+            steps {
+                git(url: 'https://github.com/ivangavrilov-viii/devops.git', branch: 'master')
+            }
+        }
+
+        stage('Start terraform') {
+            steps {
+                dir('Exam') {
+                    sh '''
+                        terraform init
+                        terraform validate
+                        terraform apply
+                    '''
+                }
+            }
+        }
+    }
+}
+
+// pipeline {
+//     agent any
+//     args '-v /var/run/docker.sock:/var/run/docker.sock'
+//
+//     stages {
+//         stage('Install Terraform') {
+//             steps {
+//                 sh '''
+//                     apt install wget -y && \
+//                     wget https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip && \
+//                     unzip terraform_1.0.11_linux_amd64.zip -d /usr/local/bin && \
+//                     rm terraform_1.0.11_linux_amd64.zip
+//                 '''
+//             }
+//         }
+//
+//         stage('Clone project from github') {
+//             steps {
+//                 git(url: 'https://github.com/ivangavrilov-viii/devops.git', branch: 'master')
+//             }
+//         }
+//
+//         stage('Start terraform') {
+//             steps {
+//                 dir('Exam') {
+//                     sh '''
+//                         terraform init
+//                         terraform validate
+//                         terraform apply -auto-approve
+//                     '''
+//                 }
+//             }
+//         }
+//     }
+// }
